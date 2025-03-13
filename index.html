@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Exercise Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        h1, h2 {
+            color: #333;
+            text-align: center;
+        }
+        .exercise-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+        .exercise {
+            background-color: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            width: calc(25% - 15px);
+            box-sizing: border-box;
+        }
+        .exercise p {
+            margin: 0;
+            font-size: 18px;
+        }
+        .result {
+            color: #2a6099;
+            font-weight: bold;
+            margin-top: 8px;
+            visibility: hidden;
+        }
+        button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .controls {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+<h1>Math Exercise Generator</h1>
+
+<div class="controls">
+    <button id="generateBtn">Generate New Exercises</button>
+    <button id="toggleBtn">Show/Hide All Results</button>
+</div>
+
+<h2>Addition Exercises</h2>
+<div id="additionContainer" class="exercise-container"></div>
+
+<h2>Subtraction Exercises</h2>
+<div id="subtractionContainer" class="exercise-container"></div>
+
+<h2>Multiplication Exercises</h2>
+<div id="multiplicationContainer" class="exercise-container"></div>
+
+<h2>Division Exercises</h2>
+<div id="divisionContainer" class="exercise-container"></div>
+
+<script>
+    // Generate random two-digit number (10-99)
+    function generateTwoDigitNumber() {
+        return Math.floor(Math.random() * 90) + 10;
+    }
+
+    // Create addition exercises
+    function generateAdditionExercises() {
+        const container = document.getElementById('additionContainer');
+        container.innerHTML = '';
+
+        for (let i = 0; i < 20; i++) {
+            const num1 = generateTwoDigitNumber();
+            const num2 = generateTwoDigitNumber();
+            const result = num1 + num2;
+
+            const exerciseDiv = document.createElement('div');
+            exerciseDiv.className = 'exercise';
+
+            const problem = document.createElement('p');
+            problem.textContent = `${num1} + ${num2} = `;
+
+            const resultP = document.createElement('p');
+            resultP.className = 'result';
+            resultP.textContent = result;
+
+            exerciseDiv.appendChild(problem);
+            exerciseDiv.appendChild(resultP);
+
+            container.appendChild(exerciseDiv);
+        }
+    }
+
+    // Create subtraction exercises (allowing negative results)
+    function generateSubtractionExercises() {
+        const container = document.getElementById('subtractionContainer');
+        container.innerHTML = '';
+
+        for (let i = 0; i < 20; i++) {
+            const num1 = generateTwoDigitNumber();
+            const num2 = generateTwoDigitNumber();
+
+            // Allow negative results
+            const result = num1 - num2;
+
+            const exerciseDiv = document.createElement('div');
+            exerciseDiv.className = 'exercise';
+
+            const problem = document.createElement('p');
+            problem.textContent = `${num1} - ${num2} = `;
+
+            const resultP = document.createElement('p');
+            resultP.className = 'result';
+            resultP.textContent = result;
+
+            exerciseDiv.appendChild(problem);
+            exerciseDiv.appendChild(resultP);
+
+            container.appendChild(exerciseDiv);
+        }
+    }
+
+    // Create multiplication exercises
+    function generateMultiplicationExercises() {
+        const container = document.getElementById('multiplicationContainer');
+        container.innerHTML = '';
+
+        for (let i = 0; i < 20; i++) {
+            const num1 = generateTwoDigitNumber();
+            const num2 = generateTwoDigitNumber();
+            const result = num1 * num2;
+
+            const exerciseDiv = document.createElement('div');
+            exerciseDiv.className = 'exercise';
+
+            const problem = document.createElement('p');
+            problem.textContent = `${num1} × ${num2} = `;
+
+            const resultP = document.createElement('p');
+            resultP.className = 'result';
+            resultP.textContent = result;
+
+            exerciseDiv.appendChild(problem);
+            exerciseDiv.appendChild(resultP);
+
+            container.appendChild(exerciseDiv);
+        }
+    }
+
+    // Create division exercises (with integer results only)
+    function generateDivisionExercises() {
+        const container = document.getElementById('divisionContainer');
+        container.innerHTML = '';
+
+        for (let i = 0; i < 20; i++) {
+            // Generate divisor first (non-zero)
+            const divisor = generateTwoDigitNumber();
+
+            // Generate a random number to multiply with divisor to ensure integer result
+            const multiplier = Math.floor(Math.random() * 10) + 1; // 1-10
+
+            // Calculate dividend to ensure integer result
+            const dividend = divisor * multiplier;
+
+            const result = dividend / divisor; // Always an integer
+
+            const exerciseDiv = document.createElement('div');
+            exerciseDiv.className = 'exercise';
+
+            const problem = document.createElement('p');
+            problem.textContent = `${dividend} ÷ ${divisor} = `;
+
+            const resultP = document.createElement('p');
+            resultP.className = 'result';
+            resultP.textContent = result;
+
+            exerciseDiv.appendChild(problem);
+            exerciseDiv.appendChild(resultP);
+
+            container.appendChild(exerciseDiv);
+        }
+    }
+
+    // Toggle visibility of all results
+    function toggleResults() {
+        const results = document.querySelectorAll('.result');
+
+        results.forEach(result => {
+            if (result.style.visibility === 'visible') {
+                result.style.visibility = 'hidden';
+            } else {
+                result.style.visibility = 'visible';
+            }
+        });
+    }
+
+    // Generate all exercises
+    function generateAllExercises() {
+        generateAdditionExercises();
+        generateSubtractionExercises();
+        generateMultiplicationExercises();
+        generateDivisionExercises();
+    }
+
+    // Add event listeners
+    document.getElementById('generateBtn').addEventListener('click', generateAllExercises);
+    document.getElementById('toggleBtn').addEventListener('click', toggleResults);
+
+    // Generate exercises on page load
+    generateAllExercises();
+</script>
+</body>
+</html>
